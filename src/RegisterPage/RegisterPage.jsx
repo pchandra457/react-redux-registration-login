@@ -13,7 +13,9 @@ class RegisterPage extends React.Component {
                 firstName: '',
                 lastName: '',
                 username: '',
-                password: ''
+                password: '',
+                gender:'',
+                country:''
             },
             submitted: false
         };
@@ -34,11 +36,12 @@ class RegisterPage extends React.Component {
     }
 
     handleSubmit(event) {
+        
         event.preventDefault();
 
         this.setState({ submitted: true });
         const { user } = this.state;
-        if (user.firstName && user.lastName && user.username && user.password) {
+        if (user.firstName && user.lastName && user.username && user.password && user.gender && user.country) {
             this.props.register(user);
         }
     }
@@ -76,6 +79,27 @@ class RegisterPage extends React.Component {
                         <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} />
                         {submitted && !user.password &&
                             <div className="help-block">Password is required</div>
+                        }
+                    </div>
+                    <div className={'form-group' + (submitted && !user.country ? ' has-error' : '')}>
+                        <label htmlFor="country">Country</label>
+                        <select className="form-control" name="country" value={user.country} onChange={this.handleChange}>
+                            <option value="">Select Country</option>
+                            <option value="india">India</option>
+                            <option value="us">Us</option>
+                            <option value="japan">Japan</option>
+                            <option value="germany">Germany</option>
+                        </select>
+                        {submitted && !user.country &&
+                            <div className="help-block">Country is required</div>
+                        }
+                    </div>
+                    <div className={'form-group custom-control custom-radio' + (submitted && !user.gender ? ' has-error' : '')}>
+                        <label id="gender-lebel" htmlFor="gender">Gender </label>
+                        <input type="radio" name="gender" value="Male" checked={user.gender == "Male"} onChange={this.handleChange} /> Male
+                        <input id="custom-radio" type="radio" name="gender" value="Female" checked={user.gender == "Female"} onChange={this.handleChange} /> Female
+                        {submitted && !user.gender &&
+                            <div className="help-block">Gender is required</div>
                         }
                     </div>
                     <div className="form-group">
